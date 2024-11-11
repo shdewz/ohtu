@@ -9,27 +9,20 @@ nationalities = ['AUT', 'CZE', 'AUS', 'SWE', 'GER', 'DEN', 'SUI',
 
 
 def main():
-    players = PlayerReader(
-        'https://studies.cs.helsinki.fi/nhlstats/2023-24/players').players
-
-    print(players[0])
-
-    # for player in sorted(players, reverse=True, key=lambda x: x.goals + x.assists):
-    #     if (player.nationality == 'FIN'):
-    #         print(player)
-
-
-def main():
-    season = Prompt.ask('Select season: ', choices=seasons)
     while True:
-        nationality = Prompt.ask('Select nationality: ', choices=sorted(nationalities))
-        url = f'https://studies.cs.helsinki.fi/nhlstats/{season}/players'
-        reader = PlayerReader(url)
-        stats = PlayerStats(reader)
-        players = stats.top_scorers(nationality, season)
-        print('')
-        stats.format_table(players, nationality, season)
-        print('')
+        season = Prompt.ask('Select season: ', choices=seasons+[''])
+        if season == '': return
+        while True:
+            nationality = Prompt.ask(
+                'Select nationality: ', choices=sorted(nationalities)+[''])
+            if nationality == '': break
+            url = f'https://studies.cs.helsinki.fi/nhlstats/{season}/players'
+            reader = PlayerReader(url)
+            stats = PlayerStats(reader)
+            players = stats.top_scorers(nationality, season)
+            print('')
+            stats.format_table(players, nationality, season)
+            print('')
 
 
 if __name__ == '__main__':
